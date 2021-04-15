@@ -106,3 +106,23 @@ housing.plot(kind="scatter",x="longitude",y="latitude",alpha=0.1,s=housing["popu
              c="median_house_value",cmap=plt.get_cmap("jet"),colorbar=True)
 plt.legend()
 plt.show()
+
+print("\n----------------------------------\n----------------------------------\n")
+print("\n----------------------------------\n----------------------------------\n")
+corr_matrix = housing.corr()
+print( corr_matrix["median_house_value"].sort_values(ascending=False))
+
+print("\n----------------------------------\n----------------------------------\n")
+print("\n----------------------------------\n----------------------------------\n")
+
+
+from pandas.plotting import scatter_matrix
+
+attributes = ["median_house_value","median_income","total_rooms","housing_median_age"]
+scatter_matrix(housing[attributes],figsize=(12,8))
+plt.show()
+
+housing.plot(kind="scatter",x="median_income",y="median_house_value",alpha=0.1)
+plt.show()
+
+
