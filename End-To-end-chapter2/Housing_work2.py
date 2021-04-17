@@ -127,5 +127,61 @@ some_data_prepared = full_pipeline.transform(some_data)
 print("Predictions:", lin_reg.predict(some_data_prepared))
 print("\n----------------------------------\n")
 print("Labels:", list(some_labels))
+print("\n----------------------------------\n")
+
+from sklearn.metrics import mean_squared_error
+housing_predictions = lin_reg.predict(housing_prepared)
+lin_mse = mean_squared_error(housing_labels, housing_predictions)
+lin_rmse = np.sqrt(lin_mse)
+print(lin_rmse)
+print("\n----------------------------------\n")
+
+from sklearn.tree import DecisionTreeRegressor
+tree_reg = DecisionTreeRegressor()
+tree_reg.fit(housing_prepared, housing_labels)
+housing_predictions = tree_reg.predict(housing_prepared)
+tree_mse = mean_squared_error(housing_labels, housing_predictions)
+tree_rmse = np.sqrt(tree_mse)
+
+print(tree_rmse)
+print("\n----------------------------------\n")
+
+
+# Cross-Validation
+
+from sklearn.model_selection import cross_val_score
+scores = cross_val_score(tree_reg, housing_prepared, housing_labels,
+                        scoring="neg_mean_squared_error", cv=10)
+tree_rmse_scores = np.sqrt(-scores)
+
+def display_scores(scores):
+    print("Scores:", scores)
+    print("Mean:", scores.mean())
+    print("Standard deviation:", scores.std())
+
+print(display_scores(tree_rmse_scores))
+print("\n----------------------------------\n")
+
+
+lin_scores = cross_val_score(lin_reg, housing_prepared, housing_labels,
+                            scoring="neg_mean_squared_error", cv=10)
+...
+lin_rmse_scores = np.sqrt(-lin_scores)
+print(display_scores(lin_rmse_scores))
+print("\n----------------------------------\n")
+
+from sklearn.ensemble import RandomForestRegressor
+forest_reg = RandomForestRegressor()
+forest_reg.fit(housing_prepared, housing_labels)
+forest_predictions = forest_reg.predict(housing_prepared)
+forest_mse= mean_squared_error(housing_labels,forest_predictions)
+forest_rmse = np.sqrt(forest_mse)
+
+scores_forets = cross_val_score(forest_reg,housing_prepared,housing_labels,scoring="neg_mean_squared_error",cv=10)
+forest_rmse_scores =np.sqrt(-scores)
+
+print(forest_rmse)
+print(display_scores(forest_rmse_scores))
+print("\n----------------------------------\n")
 
 
