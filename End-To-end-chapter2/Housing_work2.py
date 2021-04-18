@@ -177,10 +177,13 @@ forest_predictions = forest_reg.predict(housing_prepared)
 forest_mse= mean_squared_error(housing_labels,forest_predictions)
 forest_rmse = np.sqrt(forest_mse)
 
-scores_forets = cross_val_score(forest_reg,housing_prepared,housing_labels,scoring="neg_mean_squared_error",cv=10)
-forest_rmse_scores =np.sqrt(-scores)
-
+from sklearn.model_selection import cross_val_score
+scores = cross_val_score(forest_reg, housing_prepared, housing_labels,
+                        scoring="neg_mean_squared_error", cv=10)
+forest_rmse_scores = np.sqrt(-scores)
+print("Random Forest")
 print(forest_rmse)
+print("\n----------------------------------\n")
 print(display_scores(forest_rmse_scores))
 print("\n----------------------------------\n")
 
